@@ -624,29 +624,52 @@ async function submitScores() {
 }
 
 function resetAll() {
+  // Reset state variables
   scores = [0,0,0,0]; selected = [false,false,false,false];
   risks = []; ynVal = ""; pilotYN = "";
+
+  // Reset pilot Yes/No/Unsure buttons
   ["yes","unsure","no"].forEach(function(v){
     var btn = document.getElementById("pilot-" + v);
     if(btn){btn.style.borderColor="#e0e0da";btn.style.background="#fafaf8";btn.style.color="#333";}
   });
   document.getElementById("pilot-comment-wrap").style.display = "none";
   document.getElementById("pilot-comment").value = "";
+
+  // Reset startup name
   document.getElementById("startup-name").value = "";
+
+  // Reset category chips
   document.querySelectorAll(".chip").forEach(function(c){ c.classList.remove("sel"); });
+
+  // Reset risk checkboxes
   document.querySelectorAll(".risk-opt").forEach(function(c){ c.classList.remove("sel","disabled"); });
   document.getElementById("risk-count").textContent = "0";
   document.getElementById("risk-other-wrap").style.display = "none";
   document.getElementById("risk-other").value = "";
+
+  // Reset text areas
   document.getElementById("power-q").value = "";
   document.getElementById("notes").value = "";
+
+  // Reset submit button and status
   document.getElementById("submit-status").className = "status";
   document.getElementById("submit-btn").disabled = false;
+
+  // Reset forcing Yes/No
   document.getElementById("yn-yes").className = "yn-btn yn-yes";
   document.getElementById("yn-no").className = "yn-btn yn-no";
-  for (var i = 0; i < CATS.length; i++) document.getElementById("val-" + i).textContent = "—";
-  document.getElementById("min-0").className = "min-warn";
+
+  // Reset score display values for cats 1-3 (cat 0 is Yes/No/Unsure, no val element)
+  for (var i = 1; i < CATS.length; i++) {
+    var el = document.getElementById("val-" + i);
+    if(el) el.textContent = "—";
+  }
+
+  // Rebuild pip buttons for cats 1-3
   buildPips();
+
+  // Go back to Score tab
   switchTab("score");
 }
 </script>
